@@ -1,21 +1,17 @@
 package route
 
 import (
+	"awesomeProject3/connection"
 	"awesomeProject3/currencies"
 	"awesomeProject3/table"
 	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
 )
 
 func Create(c *gin.Context) {
-	db, err := sqlx.Connect("mysql", "root:root@(localhost:3306)/calculator")
-	if err != nil {
-		log.Fatalln(err)
-	}
+	db := connection.Database()
 
 	currency1 := c.Query("currency1")
 	currency2 := c.Query("currency2")
@@ -24,7 +20,7 @@ func Create(c *gin.Context) {
 
 	var values table.Main
 
-	err = db.Get(&values, "SELECT * FROM main WHERE currency1=? AND currency2=?", currency1, currency2)
+	err := db.Get(&values, "SELECT * FROM main WHERE currency1=? AND currency2=?", currency1, currency2)
 	if err != nil {
 		_, err = db.NamedExec("INSERT INTO `main` (`id`, `currency1`, `currency2`, `rate`, `updated_at`) VALUES (NULL,:currency1,:currency2, :result, :date)",
 			map[string]interface{}{
