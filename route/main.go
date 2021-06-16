@@ -1,8 +1,8 @@
 package route
 
 import (
+	"awesomeProject3/currencies"
 	"awesomeProject3/table"
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"log"
@@ -20,18 +20,6 @@ func Create(c *gin.Context) {
 	currency1 := c.Query("currency1")
 	currency2 := c.Query("currency2")
 
-	urlRequest := "https://api.exchangerate.host/latest?base=" + currency1
-
-	client := http.Client{}
-
-	request, _ := http.NewRequest("GET", urlRequest, nil)
-	resp, _ := client.Do(request)
-	var result map[string]interface{}
-
-	json.NewDecoder(resp.Body).Decode(&result)
-
-	newResult := result["rates"].(map[string]interface{})[currency2]
-
 	dt := time.Now().Format(time.RFC822Z)
 
 	var values table.Main
@@ -42,7 +30,7 @@ func Create(c *gin.Context) {
 			map[string]interface{}{
 				"currency1": currency1,
 				"currency2": currency2,
-				"result":    newResult,
+				"result":    currencies.GetRate(currency1, currency2),
 				"date":      dt,
 			})
 		if err != nil {
@@ -60,17 +48,5 @@ func Convert(c *gin.Context) {
 	currency2 := c.Query("currency2")
 	value, _ := strconv.ParseFloat(c.Query("value"), 64)
 
-	urlRequest := "https://api.exchangerate.host/latest?base=" + currency1
-
-	client := http.Client{}
-
-	request, _ := http.NewRequest("GET", urlRequest, nil)
-	resp, _ := client.Do(request)
-	var result map[string]interface{}
-
-	json.NewDecoder(resp.Body).Decode(&result)
-
-	newResult := result["rates"].(map[string]interface{})[currency2].(float64)
-
-	c.JSON(200, gin.H{"result": value * newResult})
+	c.JSON(200, gin.H{"result": value * currencies.GetRate(currency1, currency2)})
 }

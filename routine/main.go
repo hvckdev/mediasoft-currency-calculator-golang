@@ -1,12 +1,11 @@
 package routine
 
 import (
+	"awesomeProject3/currencies"
 	"awesomeProject3/table"
-	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"log"
-	"net/http"
 	"time"
 )
 
@@ -30,19 +29,7 @@ func UpdateCurrencies() {
 				log.Fatalln(err)
 			}
 
-			urlRequest := "https://api.exchangerate.host/latest?base=" + table.Currency1
-
-			client := http.Client{}
-
-			request, _ := http.NewRequest("GET", urlRequest, nil)
-			resp, _ := client.Do(request)
-			var result map[string]interface{}
-
-			json.NewDecoder(resp.Body).Decode(&result)
-
-			newResult := result["rates"].(map[string]interface{})[table.Currency2].(float64)
-
-			db.Exec("UPDATE main SET rate=? WHERE id=?", newResult, table.ID)
+			db.Exec("UPDATE main SET rate=? WHERE id=?", currencies.GetRate(table.Currency1, table.Currency2), table.ID)
 		}
 
 		time.Sleep(30 * time.Minute)
