@@ -1,8 +1,8 @@
 package test
 
 import (
-	"awesomeProject3/models"
-	"awesomeProject3/pg"
+	"awesomeProject3/internal/models"
+	"awesomeProject3/pkg/pg"
 	"context"
 	"github.com/jmoiron/sqlx"
 	"testing"
@@ -11,14 +11,16 @@ import (
 func TestDB(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	err := pg.Connect(cancel)
+	err := pg.Connect(ctx, cancel)
 	if err != nil {
+		cancel()
 		t.Errorf("error connecting db")
 	}
 
 	defer func(DB *sqlx.DB) {
 		err := DB.Close()
 		if err != nil {
+			cancel()
 			t.Errorf("error closing db")
 		}
 	}(pg.DB)
@@ -29,6 +31,7 @@ func TestDB(t *testing.T) {
 
 	err = pg.DB.GetContext(ctx, &m, q)
 	if err != nil {
-		t.Errorf("error executing query")
+		cancel()
+		t.Errorf("error executing query (probably no rows)")
 	}
 }

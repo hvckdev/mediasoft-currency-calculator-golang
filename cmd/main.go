@@ -2,9 +2,9 @@ package main
 
 import (
 	"awesomeProject3/consts"
-	"awesomeProject3/pg"
-	"awesomeProject3/routes"
-	"awesomeProject3/routine"
+	"awesomeProject3/internal/routes"
+	"awesomeProject3/pkg/pg"
+	"awesomeProject3/pkg/routines"
 	"context"
 	"github.com/jmoiron/sqlx"
 )
@@ -12,7 +12,7 @@ import (
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	err := pg.Connect(cancel)
+	err := pg.Connect(ctx, cancel)
 	if err != nil {
 		panic(err)
 	}
@@ -29,12 +29,12 @@ func main() {
 		}
 	}(pg.DB)
 
+	go routines.UpdateCurrencies(ctx, cancel, consts.UpdateTimeout)
+
 	r := routes.SetupRouter()
 
 	err = r.Run(consts.RConfig.Host + ":" + consts.RConfig.Port)
 	if err != nil {
 		panic(err)
 	}
-
-	go routine.UpdateCurrencies(ctx, consts.UpdateTimeout)
 }

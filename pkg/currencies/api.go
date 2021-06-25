@@ -15,12 +15,19 @@ func GetRate(FirstCurrency string, SecondCurrency string) (float64, error) {
 
 	client := http.Client{}
 
-	request, _ := http.NewRequest(http.MethodGet, urlRequest, nil)
-	resp, _ := client.Do(request)
+	request, err := http.NewRequest(http.MethodGet, urlRequest, nil)
+	if err != nil {
+		return 0, err
+	}
+
+	resp, err := client.Do(request)
+	if err != nil {
+		return 0, err
+	}
 
 	var result Currency
 
-	err := json.NewDecoder(resp.Body).Decode(&result)
+	err = json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
 		return 0, err
 	}

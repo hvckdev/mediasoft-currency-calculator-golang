@@ -1,7 +1,7 @@
 package test
 
 import (
-	"awesomeProject3/currencies"
+	"awesomeProject3/pkg/currencies"
 	"testing"
 )
 

@@ -29,7 +29,7 @@ var DbConfig = BD{
 	Port:     3306,
 	User:     "hvck",
 	Password: "root",
-	DBName:   "calculator",
+	DBName:   "hvck",
 }
 
 var DbSource = fmt.Sprintf(
@@ -40,7 +40,7 @@ var DbSource = fmt.Sprintf(
 
 var RConfig = Router{
 	Host: "localhost",
-	Port: "3333",
+	Port: "8080",
 }
 
 const UpdateTimeout time.Duration = 30

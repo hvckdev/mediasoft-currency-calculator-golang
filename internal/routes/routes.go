@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"awesomeProject3/controllers"
+	"awesomeProject3/internal/currency"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,8 +9,8 @@ func SetupRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api")
 	{
-		api.POST("/create", controllers.CreateCurrency)
-		api.POST("/convert", controllers.ConvertCurrency)
+		api.POST("/create", currency.Create)
+		api.POST("/convert", currency.Convert)
 	}
 
 	return router

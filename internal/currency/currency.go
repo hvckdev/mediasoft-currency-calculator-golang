@@ -1,15 +1,15 @@
-package controllers
+package currency
 
 import (
-	"awesomeProject3/currencies"
-	"awesomeProject3/models"
-	"awesomeProject3/pg"
+	"awesomeProject3/internal/models"
+	"awesomeProject3/pkg/currencies"
+	"awesomeProject3/pkg/pg"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
-func CreateCurrency(c *gin.Context) {
+func Create(c *gin.Context) {
 	firstCurrency := c.Query("currency1")
 	secondCurrency := c.Query("currency2")
 
@@ -38,7 +38,7 @@ func CreateCurrency(c *gin.Context) {
 	}
 }
 
-func ConvertCurrency(c *gin.Context) {
+func Convert(c *gin.Context) {
 	firstCurrency := c.Query("currencyFrom")
 	secondCurrency := c.Query("currencyTo")
 	rate, err := currencies.GetRate(firstCurrency, secondCurrency)

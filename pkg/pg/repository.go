@@ -15,8 +15,8 @@ var (
 	DB *sqlx.DB
 )
 
-func Connect(cancel context.CancelFunc) error {
-	db, err := sqlx.Open(consts.DbConfig.Driver, consts.DbSource)
+func Connect(ctx context.Context, cancel context.CancelFunc) error {
+	db, err := sqlx.ConnectContext(ctx, consts.DbConfig.Driver, consts.DbSource)
 
 	if err != nil {
 		return err
