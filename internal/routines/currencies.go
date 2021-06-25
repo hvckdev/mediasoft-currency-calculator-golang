@@ -2,8 +2,8 @@ package routines
 
 import (
 	"awesomeProject3/internal/models"
+	"awesomeProject3/internal/pg"
 	"awesomeProject3/pkg/currencies"
-	"awesomeProject3/pkg/pg"
 	"context"
 	"fmt"
 	"log"

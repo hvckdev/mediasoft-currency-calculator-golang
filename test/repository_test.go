@@ -2,7 +2,7 @@ package test
 
 import (
 	"awesomeProject3/internal/models"
-	"awesomeProject3/pkg/pg"
+	"awesomeProject3/internal/pg"
 	"context"
 	"github.com/jmoiron/sqlx"
 	"testing"

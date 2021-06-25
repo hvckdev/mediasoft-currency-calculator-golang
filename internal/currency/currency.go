@@ -2,8 +2,8 @@ package currency
 
 import (
 	"awesomeProject3/internal/models"
+	"awesomeProject3/internal/pg"
 	"awesomeProject3/pkg/currencies"
-	"awesomeProject3/pkg/pg"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

@@ -2,9 +2,9 @@ package main
 
 import (
 	"awesomeProject3/consts"
+	"awesomeProject3/internal/pg"
 	"awesomeProject3/internal/router"
-	"awesomeProject3/pkg/pg"
-	"awesomeProject3/pkg/routines"
+	"awesomeProject3/internal/routines"
 	"context"
 	"github.com/jmoiron/sqlx"
 )
