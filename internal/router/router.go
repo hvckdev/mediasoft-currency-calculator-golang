@@ -1,4 +1,4 @@
-package routes
+package router
 
 import (
 	"awesomeProject3/internal/currency"

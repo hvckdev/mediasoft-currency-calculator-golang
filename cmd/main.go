@@ -2,7 +2,7 @@ package main
 
 import (
 	"awesomeProject3/consts"
-	"awesomeProject3/internal/routes"
+	"awesomeProject3/internal/router"
 	"awesomeProject3/pkg/pg"
 	"awesomeProject3/pkg/routines"
 	"context"
@@ -31,7 +31,7 @@ func main() {
 
 	go routines.UpdateCurrencies(ctx, cancel, consts.UpdateTimeout)
 
-	r := routes.SetupRouter()
+	r := router.SetupRouter()
 
 	err = r.Run(consts.RConfig.Host + ":" + consts.RConfig.Port)
 	if err != nil {
